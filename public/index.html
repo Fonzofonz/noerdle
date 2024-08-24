@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle Spiel - Biene</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #game {
+            text-align: center;
+        }
+        input[type="text"] {
+            font-size: 1.5em;
+            padding: 5px;
+            margin: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        .guess {
+            font-size: 1.5em;
+            margin: 10px;
+        }
+        .correct {
+            color: green;
+        }
+        .present {
+            color: orange;
+        }
+        .absent {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div id="game">
+        <h1>Wordle Spiel - Errate das Wort!</h1>
+        <p id="message">Du hast 6 Versuche, um das Wort "Biene" zu erraten.</p>
+        <input type="text" id="guessInput" maxlength="5" placeholder="Gib dein Wort ein">
+        <button onclick="makeGuess()">Raten</button>
+        <div id="guessList"></div>
+    </div>
+
+    <script>
+        async function makeGuess() {
+            const guess = document.getElementById('guessInput').value.toLowerCase();
+            const response = await fetch('/guess', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ guess }),
+            });
+            const data = await response.json();
+
+            displayResult(data, guess);
+        }
+
+        function displayResult(data, guess) {
+            const guessList = document.getElementById('guessList');
+            const guessDiv = document.createElement('div');
+            guessDiv.className = 'guess';
+
+            data.result.forEach(letter => {
+                const letterSpan = document.createElement('span');
+                letterSpan.textContent = letter.letter.toUpperCase();
+                letterSpan.className = letter.status;
+                guessDiv.appendChild(letterSpan);
+            });
+
+            guessList.appendChild(guessDiv);
+            document.getElementById('message').textContent = data.message;
+
+            if (data.status === 'win' || data.status === 'lose') {
+                document.getElementById('guessInput').disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,15 +1,13 @@
 {
-  "name": "example-expressjs",
+  "name": "wordle-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ein einfaches Wordle-ähnliches Spiel mit Node.js",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0"
   }
 }

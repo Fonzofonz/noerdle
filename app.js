@@ -5,7 +5,7 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const wordToGuess = "Biene".toLowerCase();
+const wordToGuess = "Yacht".toLowerCase();
 const maxAttempts = 6;
 
 let attempts = 0;
